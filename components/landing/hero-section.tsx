@@ -6,18 +6,18 @@ import { WhatsAppButton } from "./whatsapp-button"
 export function HeroSection() {
   return (
     <section className="relative min-h-screen w-full overflow-hidden">
-      {/* Hero Background Image - Fachada da Loja */}
+      {/* Hero Background Image - Fachada Real da Loja */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/fachada.jpg"
+          src="/images/fachada-real.png"
           alt="Fachada da Rota do Gole - Distribuidora 24h"
           fill
-          className="object-cover object-center"
+          className="object-cover object-top"
           priority
-          quality={90}
+          quality={95}
         />
-        {/* Dark Overlay for better text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-[#121212]" />
+        {/* Dark Overlay for text contrast - violento sobre a fachada real */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-[#121212]" />
       </div>
 
       {/* Status Badge - Floating */}
