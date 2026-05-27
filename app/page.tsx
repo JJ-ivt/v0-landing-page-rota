@@ -4,27 +4,34 @@ import { SocialProofSection } from "@/components/landing/social-proof-section"
 import { LogisticsSection } from "@/components/landing/logistics-section"
 import { Footer } from "@/components/landing/footer"
 import { StickyCTA } from "@/components/landing/sticky-cta"
+import { CartProvider } from "@/contexts/cart-context"
+import { FloatingCart } from "@/components/landing/floating-cart"
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-[#121212]">
-      {/* Seção 1: Hero - O Gancho de 5 Segundos */}
-      <HeroSection />
+    <CartProvider>
+      <main className="min-h-screen bg-[#121212]">
+        {/* Secao 1: Hero - O Gancho de 5 Segundos */}
+        <HeroSection />
 
-      {/* Seção 2: Combos Campeões da Madrugada */}
-      <CombosSection />
+        {/* Secao 2: Combos Campeoes da Madrugada */}
+        <CombosSection />
 
-      {/* Seção 3: Prova Social e Infraestrutura */}
-      <SocialProofSection />
+        {/* Secao 3: Prova Social e Infraestrutura */}
+        <SocialProofSection />
 
-      {/* Seção 4: Logística e Eliminação de Fricção */}
-      <LogisticsSection />
+        {/* Secao 4: Logistica e Eliminacao de Friccao */}
+        <LogisticsSection />
 
-      {/* Seção 5: Rodapé Minimalista */}
-      <Footer />
+        {/* Secao 5: Rodape Minimalista */}
+        <Footer />
 
-      {/* CTA Fixo - Aparece após rolar */}
-      <StickyCTA />
-    </main>
+        {/* CTA Fixo - Aparece apos rolar */}
+        <StickyCTA />
+
+        {/* Carrinho Flutuante */}
+        <FloatingCart />
+      </main>
+    </CartProvider>
   )
 }

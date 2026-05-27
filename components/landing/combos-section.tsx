@@ -1,21 +1,41 @@
 "use client"
 
 import Image from "next/image"
-import { WhatsAppButton } from "./whatsapp-button"
+import { motion } from "framer-motion"
+import { useCart } from "@/contexts/cart-context"
+import { Plus, ShoppingCart } from "lucide-react"
 
 interface ComboCardProps {
+  id: string
   title: string
   description: string
-  price: string
+  price: number
+  priceFormatted: string
   imageSrc?: string
   imageAlt: string
 }
 
-function ComboCard({ title, description, price, imageSrc, imageAlt }: ComboCardProps) {
-  const whatsappMessage = `Olá! Gostaria de pedir: ${title} - ${price}`
+function ComboCard({ id, title, description, price, priceFormatted, imageSrc, imageAlt }: ComboCardProps) {
+  const { addItem } = useCart()
+
+  const handleAddToCart = () => {
+    addItem({
+      id,
+      title,
+      price,
+      priceFormatted,
+      imageSrc,
+    })
+  }
 
   return (
-    <div className="group relative bg-[#1E1E1E] rounded-2xl overflow-hidden border border-[#333333] hover:border-[#FF2C2C]/50 transition-all duration-300">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
+      className="group relative bg-[#1E1E1E] rounded-2xl overflow-hidden border border-[#333333] hover:border-[#FF2C2C]/50 transition-all duration-300"
+    >
       {/* Image Container */}
       <div className="relative aspect-square w-full bg-[#2A2A2A] overflow-hidden">
         {imageSrc ? (
@@ -52,48 +72,59 @@ function ComboCard({ title, description, price, imageSrc, imageAlt }: ComboCardP
 
         <div className="flex items-center justify-between gap-4">
           <span className="text-2xl font-bold text-white">
-            {price}
+            {priceFormatted}
           </span>
-          <WhatsAppButton 
-            size="sm" 
-            message={whatsappMessage}
-            className="flex-shrink-0"
+          <motion.button
+            onClick={handleAddToCart}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="flex items-center gap-2 bg-[#FF2C2C] hover:bg-[#e02525] text-white font-bold px-5 py-3 rounded-xl transition-all duration-300 shadow-lg shadow-red-500/20 hover:shadow-red-500/40"
           >
-            Adicionar ao WhatsApp
-          </WhatsAppButton>
+            <Plus className="w-5 h-5" />
+            <span className="hidden sm:inline">Adicionar</span>
+            <ShoppingCart className="w-5 h-5 sm:hidden" />
+          </motion.button>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
 export function CombosSection() {
   const combos = [
     {
+      id: "combo-kit-rota",
       title: 'Combo "Kit Rota do Gole"',
-      description: "Energético + Vodka + Gelo de Coco + Copo.",
-      price: "R$ 49,90",
-      imageSrc: "", // Deixar vazio para placeholder editável
+      description: "Energetico + Vodka + Gelo de Coco + Copo.",
+      price: 49.90,
+      priceFormatted: "R$ 49,90",
+      imageSrc: "",
       imageAlt: "Kit Rota do Gole - Combo especial"
     },
     {
-      title: 'Combo "Salva Narguilé" 🥩',
-      description: "Descrição editável do combo",
-      price: "R$ XX,XX",
-      imageSrc: "", // Deixar vazio para placeholder editável
-      imageAlt: "Combo Salva Narguilé"
+      id: "combo-salva-narguile",
+      title: 'Combo "Salva Narguile"',
+      description: "Descricao editavel do combo",
+      price: 0,
+      priceFormatted: "R$ XX,XX",
+      imageSrc: "",
+      imageAlt: "Combo Salva Narguile"
     },
     {
+      id: "combo-noite-premium",
       title: 'Combo "Noite Premium"',
-      description: "Descrição editável do combo",
-      price: "R$ XX,XX",
+      description: "Descricao editavel do combo",
+      price: 0,
+      priceFormatted: "R$ XX,XX",
       imageSrc: "",
       imageAlt: "Combo Noite Premium"
     },
     {
+      id: "combo-churrasco",
       title: 'Combo "Churrasco Completo"',
-      description: "Descrição editável do combo",
-      price: "R$ XX,XX",
+      description: "Descricao editavel do combo",
+      price: 0,
+      priceFormatted: "R$ XX,XX",
       imageSrc: "",
       imageAlt: "Combo Churrasco Completo"
     }
@@ -103,19 +134,24 @@ export function CombosSection() {
     <section className="py-16 px-4 bg-[#121212]">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
-        <div className="text-center mb-12">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-12"
+        >
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
-            🔥 COMBOS CAMPEÕES DA MADRUGADA
+            COMBOS CAMPEOES DA MADRUGADA
           </h2>
           <p className="text-[#A0A0A0] text-lg max-w-2xl mx-auto">
-            Os combos mais pedidos pelos nossos clientes. Praticidade e economia em um só lugar.
+            Os combos mais pedidos pelos nossos clientes. Praticidade e economia em um so lugar.
           </p>
-        </div>
+        </motion.div>
 
-        {/* Combos Grid - Mobile: 1 column, Desktop: 2 columns */}
+        {/* Combos Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {combos.map((combo, index) => (
-            <ComboCard key={index} {...combo} />
+          {combos.map((combo) => (
+            <ComboCard key={combo.id} {...combo} />
           ))}
         </div>
       </div>
